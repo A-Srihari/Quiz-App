@@ -23,3 +23,5 @@ HTML5 – Structure
 CSS3 – Styling & Responsive Design
 
 JavaScript (ES6) – Logic, DOM Manipulation & Score Calculation
+
+Deployed Link: https://a-srihari.github.io/Quiz-App/
