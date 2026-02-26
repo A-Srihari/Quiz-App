@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- ── SETUP SCREEN ── -->
+        <div class="screen active" id="setup-screen">
+            <div class="card">
+                <div class="badge">Knowledge Challenge</div>
+                <h1>Test Your <span>Mind</span></h1>
+                <p class="subtitle-text">Pick a subject, set the number of questions, and choose your time limit per
+                    question.</p>
+
+                <div class="section-label">Choose a Subject</div>
+                <div class="subject-grid">
+                    <button class="subject-btn" onclick="selectSubject('java',this)">
+                        <span class="s-icon">☕</span>
+                        <span class="s-info"><span class="s-name">Java</span><span class="s-count">25
+                                questions</span></span>
+                    </button>
+                    <button class="subject-btn" onclick="selectSubject('sql',this)">
+                        <span class="s-icon">🗄️</span>
+                        <span class="s-info"><span class="s-name">SQL</span><span class="s-count">25
+                                questions</span></span>
+                    </button>
+                    <button class="subject-btn" onclick="selectSubject('quant',this)">
+                        <span class="s-icon">🔢</span>
+                        <span class="s-info"><span class="s-name">Quantitative Aptitude</span><span class="s-count">25
+                                questions</span></span>
+                    </button>
+                    <button class="subject-btn" onclick="selectSubject('reasoning',this)">
+                        <span class="s-icon">🧩</span>
+                        <span class="s-info"><span class="s-name">Reasoning</span><span class="s-count">25
+                                questions</span></span>
+                    </button>
+                </div>
+
+                <div class="section-label">Number of Questions</div>
+                <div class="count-pills">
+                    <button class="count-pill" onclick="selectCount(5,this)">5</button>
+                    <button class="count-pill" onclick="selectCount(10,this)">10</button>
+                    <button class="count-pill" onclick="selectCount(15,this)">15</button>
+                    <button class="count-pill" onclick="selectCount(20,this)">20</button>
+                    <button class="count-pill" onclick="selectCount(25,this)">25</button>
+                </div>
+
+                <div class="section-label">⏱ Time Per Question</div>
+                <div class="timer-pills">
+                    <button class="timer-pill" onclick="selectTimer(15,this)">15 sec</button>
+                    <button class="timer-pill" onclick="selectTimer(30,this)">30 sec</button>
+                    <button class="timer-pill" onclick="selectTimer(45,this)">45 sec</button>
+                    <button class="timer-pill" onclick="selectTimer(60,this)">60 sec</button>
+                    <button class="timer-pill" onclick="selectTimer(0,this)">No Limit</button>
+                </div>
+
+                <button class="btn" id="start-btn" onclick="startQuiz()" disabled>Start Quiz →</button>
+            </div>
+        </div>
+
+        <!-- ── QUIZ SCREEN ── -->
+        <div class="screen" id="quiz-screen">
+            <div class="quiz-header">
+                <div class="q-counter">Question <strong id="q-num">1</strong> of <strong id="q-total">10</strong></div>
+                <div class="right-header">
+                    <div class="subject-tag" id="quiz-subject-tag"></div>
+                    <div class="score-pill">Score: <span id="live-score">0</span></div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Timer Row -->
+            <div class="timer-row" id="timer-row">
+                <div class="timer-ring-wrap" id="timer-ring-wrap">
+                    <svg viewBox="0 0 56 56">
+                        <circle class="timer-ring-bg" cx="28" cy="28" r="22" />
+                        <circle class="timer-ring-fill" id="timer-ring-fill" cx="28" cy="28" r="22" />
+                    </svg>
+                    <div class="timer-num" id="timer-num">30</div>
+                </div>
+                <div class="timer-label-text">
+                    Time Remaining
+                    <span id="timer-sub-label">seconds left</span>
+                </div>
+            </div>
+
+            <div class="question-card" id="question-card">
+                <div class="q-label">Question</div>
+                <h2 id="question-text"></h2>
+            </div>
+
+            <div class="options-grid" id="options-grid"></div>
+            <div class="feedback-bar" id="feedback-bar"></div>
+            <div class="next-row" id="next-row">
+                <button class="btn" onclick="nextQuestion()">Next →</button>
+            </div>
+        </div>
+
+        <!-- ── RESULT SCREEN ── -->
+        <div class="screen" id="result-screen">
+            <div class="card result-card">
+                <span class="result-icon" id="result-icon"></span>
+                <h2 id="result-title"></h2>
+                <div class="result-subject-tag" id="result-subject-tag"></div>
+                <p class="result-sub" id="result-sub"></p>
+                <div class="big-score" id="big-score"></div>
+                <div class="score-label">Your Score</div>
+                <div class="stats-row">
+                    <div class="stat-box"><span class="num correct-num" id="stat-correct"></span><span
+                            class="lbl">Correct</span></div>
+                    <div class="stat-box"><span class="num wrong-num" id="stat-wrong"></span><span
+                            class="lbl">Wrong</span></div>
+                    <div class="stat-box"><span class="num timeout-num" id="stat-timeout"></span><span class="lbl">Timed
+                            Out</span></div>
+                    <div class="stat-box"><span class="num" id="stat-pct"></span><span class="lbl">Accuracy</span></div>
+                </div>
+                <div class="result-btns">
+                    <button class="btn ghost" onclick="goSetup()">↩ Change Subject</button>
+                    <button class="btn" onclick="retryQuiz()">Retry →</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
